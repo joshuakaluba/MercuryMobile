@@ -1,0 +1,4 @@
+export enum StorageKeysEnum {
+    USER_KEY = '@USER_STORAGE_KEY_DEV.001',
+    JOINED_SESSION_KEY = '@JOINED_SESSION_KEY_DEV_1'
+}
