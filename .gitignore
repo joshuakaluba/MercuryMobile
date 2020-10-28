@@ -28,6 +28,7 @@ coverage
 
 # expo
 .expo
+.expo-shared/*
 */.expo/*
 */.expo-shared/*
 
