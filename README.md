@@ -6,4 +6,5 @@ Mobile client for the Mercury Occupancy Tracker available on the [App Store](htt
 
 1. Follow the instructions to clone and run [this repo](https://github.com/joshuakaluba/MercuryApi.git).
 2. Replace the `serverUrl` value in [Config.ts](src/constants/Config.ts) to point to the location of where Step 1 will be running.
-3. `npm run start`
+3. `yarn install`
+4. `yarn start`
