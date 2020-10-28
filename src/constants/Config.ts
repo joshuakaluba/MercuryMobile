@@ -1,4 +1,4 @@
-const serverUrl = 'https://mercury.kaluba.tech';
+const serverUrl = 'YOUR_SERVER_URL';
 
 export default {
     serverUrl,
