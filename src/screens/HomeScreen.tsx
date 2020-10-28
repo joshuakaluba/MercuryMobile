@@ -23,20 +23,20 @@ export default function HomeScreen({ route, navigation }) {
     navigation.navigate('SessionScreen', item);
   }
 
-  async function getSessions() {
+  async function _getSessionsAsync() {
     setLoading(true);
     const sessions = await sessionService.getSessions();
     setSessions(sessions);
     setLoading(false);
   }
 
-  function onAddJoinClick(){
+  function _onAddJoinClick(){
     navigation.navigate('SessionCreationScreen')
   }
 
   useEffect(() => {
     const init = async () => {
-      await getSessions();
+      await _getSessionsAsync();
     };
     init();
   }, []);
@@ -50,9 +50,7 @@ export default function HomeScreen({ route, navigation }) {
         const session: Session = JSON.parse(sessionJson || '');
         navigation.navigate('SessionScreen', session);
       }
-
-
-      await getSessions();
+      await _getSessionsAsync();
     });
 
     return unsubscribe;
@@ -84,7 +82,7 @@ export default function HomeScreen({ route, navigation }) {
           <RefreshControl
             refreshing={loading}
             onRefresh={async () => {
-              await getSessions();
+              await _getSessionsAsync();
             }}
           />
         }
@@ -110,7 +108,7 @@ export default function HomeScreen({ route, navigation }) {
           ))
         }
         {
-          !hasSessions && <NoSessionCard onAddJoinClick={onAddJoinClick}/>
+          !hasSessions && <NoSessionCard onAddJoinClick={_onAddJoinClick}/>
         }
 
       </ScrollView>
