@@ -27,7 +27,7 @@ export default function CameraScreen({ navigation }) {
         })();
     }, []);
 
-    async function _onBarCodeScanned(result: BarCodeScannerResult) {
+    const _onBarCodeScanned = async (result: BarCodeScannerResult) => {
         try {
             if (result.data.includes(Config.downloadUrl) && scanned === false) {
                 scanned = true;
@@ -51,7 +51,7 @@ export default function CameraScreen({ navigation }) {
     }
 
     return (
-        <View style={{ flex: 1, padding: 15 }}>
+        <View style={styles.container}>
             {
                 hasPermission === true &&
                 <Camera
@@ -80,8 +80,11 @@ export default function CameraScreen({ navigation }) {
     );
 }
 
-
 const styles = StyleSheet.create({
+    container:{ 
+        flex: 1, 
+        padding: 15 
+    },
     row: {
         flex: 0.5,
         alignItems: 'center',
