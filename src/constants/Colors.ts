@@ -18,41 +18,50 @@ const primary = darkGrey;
 const tintColorLight = darkGrey;
 const tintColorDark = '#fff';
 
-
 export default {
-  light: {
-    text: '#000',
-    tabBarBackgroundColor: "#f5fbff",
-    background: '#fff',
-    tint: tintColorLight,
-    tabIconDefault: '#ccc',
-    tabHeaderBackgroundColor: darkGrey,
-    tabIconSelected: tintColorLight,
-    tabHeaderIconColor: darkGrey,
-  },
-  dark: {
-    text: '#000',
-    tabBarBackgroundColor: "#f5fbff",
-    background: '#fff',
-    tint: tintColorLight,
-    tabIconDefault: '#ccc',
-    tabHeaderBackgroundColor: darkGrey,
-    tabIconSelected: tintColorLight,
-    tabHeaderIconColor: white,
-    /*text: '#fff',
-    background: '#000',
-    tint: tintColorDark,
-    tabIconDefault: '#ccc',
-    tabBarBackgroundColor: darkGrey,//"#f5fbff", //TODO
-    tabHeaderBackgroundColor: darkGrey, //TODO
-    tabIconSelected: tintColorDark,
-    tabHeaderIconColor: white,*/
-  },
-  constants: {
-    darkGrey,
-    lightGrey,
-    bodyBackgroundColor,
-    white,
-    danger
-  }
+    light: {
+        text: '#000',
+        tabBarBackgroundColor: "#f5fbff",
+        background: '#fff',
+        tint: tintColorLight,
+        tabIconDefault: '#ccc',
+        tabHeaderBackgroundColor: darkGrey,
+        tabIconSelected: tintColorLight,
+        tabHeaderIconColor: darkGrey,
+        textInputColor: darkGrey,
+        bodyBackgroundColor
+    },
+    dark: {
+        text: '#fff',
+        background: '#000',
+        tint: tintColorDark,
+        tabIconDefault: '#ccc',
+        tabBarBackgroundColor: darkGrey,
+        tabHeaderBackgroundColor: darkGrey,
+        tabIconSelected: tintColorDark,
+        tabHeaderIconColor: white,
+        textInputColor: white,
+        bodyBackgroundColor: darkGrey
+    },
+    constants: {
+        darkGrey,
+        black,
+        white,
+        danger,
+        blue,
+        tintColor,
+        iconDefault,
+        copper,
+        bodyBackgroundColor,
+        scrollViewBackgroundColor,
+        mainViewBackgroundColor,
+        tabBarBackgroundColor,
+        grey,
+        defaultTextColor,
+        success,
+        lightGrey,
+        primary,
+        tintColorLight,
+        tintColorDark,
+    }
 };

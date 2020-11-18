@@ -1,11 +1,10 @@
-import { AsyncStorage, Platform } from 'react-native';
-import 'react-native-get-random-values';
 // @ts-ignore
 import { v4 as uuidv4 } from 'uuid';
+import { AsyncStorage, Platform } from 'react-native';
+import 'react-native-get-random-values';
 import { User } from '../models';
 import { PlatformEnum, StorageKeysEnum } from '../enums';
 import { Config } from '../constants';
-
 
 export class UserService {
 
