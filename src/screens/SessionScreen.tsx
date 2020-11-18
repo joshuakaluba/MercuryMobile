@@ -11,6 +11,7 @@ import { Modal } from 'react-native-paper';
 import { View, Text } from '../components/Themed';
 import { Colors, Config } from '../constants';
 import useColorScheme from '../hooks/useColorScheme';
+import Lib from './../utilities/Lib';
 
 // @ts-ignore
 export default function SessionScreen({ route, navigation }) {
@@ -55,28 +56,37 @@ export default function SessionScreen({ route, navigation }) {
 
     useEffect(() => {
         const interval = setInterval(async () => {
-            console.log('Updating');
             await _getSessionAsync();
         }, 3000);
         return () => {
-            console.log('Clearing Interval')
             clearInterval(interval);
         };
     }, []);
 
     async function _getSessionAsync() {
-        const session: Session = await sessionService.getSession(params.id);
-        _updateSession(session);
+        try {
+            const session: Session = await sessionService.getSession(params.id);
+            _updateSession(session);
+        } catch (error) {
+            Lib.showError(error);
+        }
     }
 
     async function _updateSessionCount(operation: SessionOperationEnum): Promise<void> {
-        const sessionOperation: SessionOperation = {
-            sessionId: params.id,
-            sessionOperation: operation
-        };
+        setLoading(true);
+        try {
+            const sessionOperation: SessionOperation = {
+                sessionId: params.id,
+                sessionOperation: operation
+            };
 
-        const session: Session = await sessionService.updateSessionCount(sessionOperation);
-        _updateSession(session);
+            const session: Session = await sessionService.updateSessionCount(sessionOperation);
+            _updateSession(session);
+        } catch (error) {
+            Lib.showError(error);
+        }
+
+        setLoading(false);
     }
 
     function _updateSession(session: Session): void {
@@ -117,7 +127,7 @@ export default function SessionScreen({ route, navigation }) {
                 tintColor={fill > 90 ? Colors.constants.danger : "#00e0ff"}
                 style={{ marginBottom: 15 }}
                 backgroundColor={Colors.constants.darkGrey}>
-                {fill => <Text style={{ fontFamily: 'CounterFont', fontSize: 40 }}>{`${currentCount}/${capacity}`}</Text>}
+                {fill => <Text style={{ fontSize: 40, fontWeight: 'bold' }}>{`${currentCount}/${capacity}`}</Text>}
             </AnimatedCircularProgress>
             <View style={{ display: 'flex', flexDirection: 'row', marginBottom: 30, paddingTop: 40 }}>
                 <Icon
@@ -143,7 +153,7 @@ export default function SessionScreen({ route, navigation }) {
 
                     <NativeText style={styles.modalHeading}>
                         Scan the following QR Code to share this session.
-                            </NativeText>
+                    </NativeText>
 
                     <SvgQRCode value={qrCode} size={130} />
 
@@ -163,7 +173,6 @@ export default function SessionScreen({ route, navigation }) {
         </View>
     );
 }
-
 
 const styles = StyleSheet.create({
     modal: {

@@ -5,9 +5,10 @@ import { View, Text as ThemedText } from '../components/Themed';
 import { PrimaryFormInput } from '../components';
 import { SessionsService } from '../services';
 import { Session } from './../models';
+import { Lib } from './../utilities';
 
 // @ts-ignore
-export default function SessionCreationScreen({ route, navigation }) {
+export default function SessionCreationScreen({ navigation }) {
 
     const sessionService: SessionsService = new SessionsService();
 
@@ -17,11 +18,17 @@ export default function SessionCreationScreen({ route, navigation }) {
     const [capacity, setCapacity] = useState(0);
 
     async function createSession(): Promise<void> {
-        setLoading(true);
-        const session: Session = { name, capacity };
-        const result = await sessionService.createSession(session);
+        try {
+            setLoading(true);
+            const session: Session = { name, capacity };
+            const result = await sessionService.createSession(session);            
+            navigation.replace('SessionScreen', result);
+            return;
+        } catch (error) {
+            Lib.showError(error);
+        }
+
         setLoading(false);
-        navigation.replace('SessionScreen', result);
     }
 
     async function joinSession(): Promise<void> {
@@ -32,7 +39,6 @@ export default function SessionCreationScreen({ route, navigation }) {
             alert(e);
         }
     }
-
 
     return (
         <Container>
@@ -67,7 +73,7 @@ export default function SessionCreationScreen({ route, navigation }) {
                             disabled={loading || sessionCode.length < 6}>
                             <Text style={{ fontWeight: 'bold' }}>Join Location</Text>
                         </Button>
-                        <View style={{alignItems:'center', justifyContent:'center'}}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                             <ThemedText style={styles.orText}>or</ThemedText>
                         </View>
                         <Button onPress={() => { navigation.replace("CameraScreen") }}
@@ -108,5 +114,4 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 30,
     }
-
 });
