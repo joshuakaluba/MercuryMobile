@@ -4,7 +4,7 @@ export type RootStackParamList = {
 };
 
 export type HomeParamList = {
-  HomeScreen: undefined;
+  LocationsScreen: undefined;
   SessionScreen: undefined;
   SessionCreationScreen: undefined;
   CameraScreen: undefined;
