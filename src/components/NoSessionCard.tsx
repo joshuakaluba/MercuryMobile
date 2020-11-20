@@ -1,51 +1,47 @@
 import React from "react";
-import { StyleSheet, View, TextInput, Text as NativeText } from "react-native";
-import { Container, Tab, Tabs, Text, Button, TabHeading } from 'native-base';
+import { StyleSheet, } from "react-native";
 import { Colors } from "../constants";
+import PrimaryButton from './PrimaryButton';
+import { View, Text } from './Themed';
 
 //@ts-ignore
-export default function NoSessionCard(props: any ) {
+const NoSessionCard = (props: any) => {
 
-    function _addJoinLocation() {
-        props.onAddJoinClick();
-    }
+    const _addJoinLocation = () => props.onAddJoinClick();
 
     return (
         <View style={styles.container}>
-            <NativeText style={styles.noSessionText}>You currently have no locations available. Please add or join a location to proceed</NativeText>
+            <Text style={styles.noSessionText}>
+                You currently have no locations available. Please add or join a location to proceed
+            </Text>
 
-            <Button onPress={_addJoinLocation}
-                style={styles.addJoinButton}>
-                <Text style={{ fontWeight: 'bold' }}>Add/Join Location</Text>
-            </Button>
+            <PrimaryButton
+                title={'Add/Join Location'}
+                onPress={_addJoinLocation}
+                loading={props.loading} />
         </View>
     );
 }
 
+export default NoSessionCard;
+
 const styles = StyleSheet.create({
     container: {
-        minHeight: '50%',
         alignItems: "center",
         justifyContent: "center",
         margin: 15,
-        backgroundColor: Colors.constants.white,
         paddingLeft: 25,
         paddingRight: 25,
-        paddingTop: 50,
-        paddingBottom: 50,
+        paddingTop: 75,
+        paddingBottom: 75,
         borderColor: Colors.constants.lightGrey,
         borderWidth: 2,
         borderRadius: 12
     },
     noSessionText: {
         fontWeight: 'bold',
+        paddingBottom: 30,
         fontSize: 18,
         textAlign: 'center'
-    },
-    addJoinButton: {
-        marginTop: 15,
-        alignContent: 'center',
-        alignItems: 'center',
-        justifyContent: 'center'
     }
 });
