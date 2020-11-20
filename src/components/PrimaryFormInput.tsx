@@ -3,16 +3,20 @@ import { StyleSheet, View, TextInput } from "react-native";
 import { Colors } from "../constants";
 import useColorScheme from '../hooks/useColorScheme';
 
-export default function PrimaryFormInput(props: any) {
+const PrimaryFormInput = (props: any) => {
 
     const colorScheme = useColorScheme();
 
+    const fixedWidth = !!props.fixedWidth ? {
+        width: '100%'
+    } : {};
+
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, fixedWidth]}>
             <TextInput
                 style={[styles.textInput,
                 {
-                    backgroundColor: Colors[colorScheme].bodyBackgroundColor,
+                    backgroundColor: Colors[colorScheme].textInputBackgroundColor,
                     color: Colors[colorScheme].textInputColor
                 }]}
                 // @ts-ignore
@@ -22,17 +26,20 @@ export default function PrimaryFormInput(props: any) {
                 placeholder={props.placeholder ? props.placeholder : ""}
                 placeholderTextColor={Colors.constants.lightGrey}
                 onChangeText={props.onChangeText}
-                keyboardType={props.numeric ? 'numeric' : 'default'}
+                keyboardType={props.numeric ? 'number-pad' : 'default'}
+                min={0}
                 secureTextEntry={props.secureTextEntry ? props.secureTextEntry : false}
             ></TextInput>
         </View>
     );
-}
+};
+
+export default PrimaryFormInput;
 
 const styles = StyleSheet.create({
     container: {
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
     },
     textInput: {
         width: "100%",
