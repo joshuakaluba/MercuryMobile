@@ -1,6 +1,8 @@
-const serverUrl = 'YOUR_SERVER_URL';
+import environment from './../../environment';
+
+const serverUrl = environment.serverUrl;
 
 export default {
-    serverUrl,
-    downloadUrl:`${serverUrl}/Home/Download/`
-  };
+  serverUrl,
+  downloadUrl: `${serverUrl}/Home/Download/`
+};
