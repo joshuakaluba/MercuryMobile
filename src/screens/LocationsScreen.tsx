@@ -1,21 +1,23 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
-import { StyleSheet, ScrollView, RefreshControl, View as NativeView, AsyncStorage } from 'react-native';
+import { StyleSheet, RefreshControl, View as NativeView, AsyncStorage } from 'react-native';
 import { Icon as ReactNativeElementsIcon } from 'react-native-elements';
-import { ListItem, Text, Left, Right, Icon } from 'native-base';
+import { ListItem, Left, Right, Icon } from 'native-base';
 import { Container } from 'native-base';
 import { Colors } from '../constants';
 import { NoSessionCard } from '../components';
+import { ScrollView, Text } from '../components/Themed';
 import { SessionsService } from '../services/SessionsService';
 import { Session } from '../models';
 import useColorScheme from '../hooks/useColorScheme';
 import { StorageKeysEnum } from '../enums';
+import Lib from './../utilities/Lib';
 
 // @ts-ignore
-export default function LocationsScreen({ route, navigation }) {
+const LocationsScreen = ({ route, navigation }) => {
 
     const sessionService: SessionsService = new SessionsService();
 
-    const [sessions, setSessions] = useState([]);
+    const [sessions, setSessions] = useState<Session[]>([]);
     const [loading, setLoading] = useState(false);
     const colorScheme = useColorScheme();
 
@@ -24,10 +26,15 @@ export default function LocationsScreen({ route, navigation }) {
         navigation.navigate('SessionScreen', item);
     }
 
-    async function _getSessionsAsync() {
-        setLoading(true);
-        const sessions = await sessionService.getSessions();
-        setSessions(sessions);
+    const _getSessionsAsync = async () => {
+        try {
+            setLoading(true);
+            const sessions = await sessionService.getSessions();
+            setSessions(sessions);
+
+        } catch (error) {
+            Lib.showError(error)
+        }
         setLoading(false);
     }
 
@@ -60,7 +67,7 @@ export default function LocationsScreen({ route, navigation }) {
     useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () => (
-                <NativeView style={{ display: 'flex', flexDirection: 'row', marginRight: 5 }}>
+                <NativeView style={styles.headerIcon}>
                     <ReactNativeElementsIcon
                         onPress={() => {
                             navigation.navigate('SessionCreationScreen');
@@ -79,6 +86,7 @@ export default function LocationsScreen({ route, navigation }) {
     return (
         <Container>
             <ScrollView
+                //@ts-ignore
                 refreshControl={
                     <RefreshControl
                         refreshing={loading}
@@ -86,18 +94,12 @@ export default function LocationsScreen({ route, navigation }) {
                             await _getSessionsAsync();
                         }}
                     />
-                }
-            >
+                }>
                 {
-                    hasSessions && sessions.map((session, i) => (
-                        <ListItem key={i} onPress={() => { _onItemPress(session) }}>
+                    hasSessions && sessions.map((session: Session, i) => (
+                        <ListItem key={i} onPress={() => { _onItemPress(session) }} >
                             <Left>
-                                <Text>
-                                    {
-                                        //@ts-ignore
-                                        session.name
-                                    }
-                                </Text>
+                                <Text>{session.name}</Text>
                             </Left>
                             <Right>
                                 <Icon name={'arrow-forward'} />
@@ -105,30 +107,19 @@ export default function LocationsScreen({ route, navigation }) {
                         </ListItem>
                     ))
                 }
-                {
-                    !hasSessions && <NoSessionCard onAddJoinClick={_onAddJoinClick} />
-                }
-
+                {!hasSessions && <NoSessionCard onAddJoinClick={_onAddJoinClick} />}
             </ScrollView>
 
         </Container>
     );
-
 }
 
+export default LocationsScreen;
+
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    title: {
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
-    separator: {
-        marginVertical: 30,
-        height: 1,
-        width: '80%',
-    },
+    headerIcon: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginRight: 5
+    }
 });
