@@ -14,6 +14,7 @@ const grey = "#2e3131";
 const defaultTextColor = "#2e3131";
 const success = "#3fc380";
 const lightGrey = "#bdc3c7";
+const lighterGrey = '#fafafa';
 const primary = darkGrey;
 const tintColorLight = darkGrey;
 const tintColorDark = '#fff';
@@ -29,6 +30,7 @@ export default {
         tabIconSelected: tintColorLight,
         tabHeaderIconColor: darkGrey,
         textInputColor: darkGrey,
+        textInputBackgroundColor:white,
         bodyBackgroundColor
     },
     dark: {
@@ -41,7 +43,8 @@ export default {
         tabIconSelected: tintColorDark,
         tabHeaderIconColor: white,
         textInputColor: white,
-        bodyBackgroundColor: darkGrey
+        textInputBackgroundColor:darkGrey,
+        bodyBackgroundColor: black
     },
     constants: {
         darkGrey,
@@ -60,6 +63,7 @@ export default {
         defaultTextColor,
         success,
         lightGrey,
+        lighterGrey,
         primary,
         tintColorLight,
         tintColorDark,
