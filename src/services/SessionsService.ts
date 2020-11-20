@@ -34,8 +34,6 @@ export class SessionsService {
         const apiUrl = `${Config.serverUrl}/Sessions/UpdateCount`;
         const body = JSON.stringify(sessionOperation);
 
-        console.log(body);
-
         const response = await fetch(apiUrl, {
             method: "post",
             body,
@@ -48,6 +46,28 @@ export class SessionsService {
 
         if (response.status != 200) {
             throw new Error(json.message ? json.message : 'Unable to update session count');
+        }
+        return json as Session;
+    }    
+    
+    
+    public async updateSession(session: Session): Promise<Session> {
+
+        const apiUrl = `${Config.serverUrl}/Sessions/UpdateSession/${session.id}`;
+        const body = JSON.stringify(session);
+
+        const response = await fetch(apiUrl, {
+            method: "put",
+            body,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        const json = await response.json();
+
+        if (response.status != 200) {
+            throw new Error(json.message ? json.message : 'Unable to update count');
         }
         return json as Session;
     }
@@ -75,6 +95,33 @@ export class SessionsService {
 
         if (response.status != 200) {
             throw new Error(json.message ? json.message : 'Unable to join session');
+        }
+        return json as Session;
+    }    
+    
+    public async leaveSession(sessionId: string): Promise<Session> {
+
+        const apiUrl = `${Config.serverUrl}/Sessions/LeaveSession`;
+
+        const user: User = await this.userService.getUser();
+
+        const body = {
+            sessionId,
+            userId: user.id
+        };
+
+        const response = await fetch(apiUrl, {
+            method: "post",
+            body:JSON.stringify(body),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        const json = await response.json();
+
+        if (response.status != 200) {
+            throw new Error(json.message ? json.message : 'Unable to leave session');
         }
         return json as Session;
     }
