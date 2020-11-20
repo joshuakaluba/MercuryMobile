@@ -1,10 +1,9 @@
-// @ts-ignore
-import { v4 as uuidv4 } from 'uuid';
 import { AsyncStorage, Platform } from 'react-native';
 import 'react-native-get-random-values';
 import { User } from '../models';
 import { PlatformEnum, StorageKeysEnum } from '../enums';
 import { Config } from '../constants';
+import Lib from './../utilities/Lib';
 
 export class UserService {
 
@@ -15,7 +14,7 @@ export class UserService {
         if (userId !== null) {
             user.id = userId;
         } else {
-            userId = uuidv4();
+            userId = Lib.generateGuid();
             await AsyncStorage.setItem(StorageKeysEnum.USER_KEY, userId || '');
 
             user.id = userId || '';
