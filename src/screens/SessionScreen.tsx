@@ -7,7 +7,7 @@ import { SessionsService } from '../services';
 import { Session, SessionOperation } from '../models';
 import { SessionOperationEnum } from '../enums';
 import { View, Text } from '../components/Themed';
-import { ShareSessionModal, EditSessionModal } from '../components';
+import { ShareSessionModal, EditSessionModal, PrimaryAdBanner } from '../components';
 import { Colors, Config } from '../constants';
 import useColorScheme from '../hooks/useColorScheme';
 
@@ -178,58 +178,64 @@ const SessionScreen = ({ route, navigation }) => {
     return (
         <View style={styles.container}>
 
-            <AnimatedCircularProgress
-                size={300}
-                width={40}
-                backgroundWidth={30}
-                fill={fill}
-                tintColor={fill > 90 ? Colors.constants.danger : '#00e0ff'}
-                style={{ marginBottom: 15 }}
-                backgroundColor={Colors.constants.darkGrey}>
-                {() => <Text style={styles.progressText}>{`${currentCount}/${capacity}`}</Text>}
-            </AnimatedCircularProgress>
+            <View style={[styles.box, styles.body]}>
+                <AnimatedCircularProgress
+                    size={300}
+                    width={40}
+                    backgroundWidth={30}
+                    fill={fill}
+                    tintColor={fill > 90 ? Colors.constants.danger : '#00e0ff'}
+                    style={{ marginBottom: 15 }}
+                    backgroundColor={Colors.constants.darkGrey}>
+                    {() => <Text style={styles.progressText}>{`${currentCount}/${capacity}`}</Text>}
+                </AnimatedCircularProgress>
 
-            <View style={styles.iconContainer}>
-                <Icon
-                    reverse
-                    onPress={async () => { await _updateSessionCountAsync(SessionOperationEnum.DECREMENT) }}
-                    disabled={loading}
-                    name='minus'
-                    size={40}
-                    type='feather'
-                    color={Colors.constants.darkGrey} />
-                <Icon
-                    reverse
-                    disabled={loading}
-                    onPress={async () => { await _updateSessionCountAsync(SessionOperationEnum.INCREMENT) }}
-                    name='plus'
-                    size={40}
-                    type='feather'
-                    color={Colors.constants.danger} />
+                <View style={styles.iconContainer}>
+                    <Icon
+                        reverse
+                        onPress={async () => { await _updateSessionCountAsync(SessionOperationEnum.DECREMENT) }}
+                        disabled={loading}
+                        name='minus'
+                        size={40}
+                        type='feather'
+                        color={Colors.constants.darkGrey} />
+                    <Icon
+                        reverse
+                        disabled={loading}
+                        onPress={async () => { await _updateSessionCountAsync(SessionOperationEnum.INCREMENT) }}
+                        name='plus'
+                        size={40}
+                        type='feather'
+                        color={Colors.constants.danger} />
+                </View>
+
+                <ShareSessionModal
+                    visible={showShareModalVisible}
+                    loading={loading}
+                    capacity={capacity}
+                    qrCode={qrCode}
+                    shortSessionCode={shortSessionCode}
+                    onCopyToClipboardClick={_copyToClipboard}
+                    onDismiss={_hideShowShareModalVisible} />
+
+                <EditSessionModal
+                    visible={showUpdateSessionModalVisible}
+                    loading={loading}
+                    sessionId={sessionId}
+                    capacity={newCapacity}
+                    sessionName={newSessionName}
+                    currentCount={newCurrentCount}
+                    setName={_setNewSessionName}
+                    setCapacity={_setNewCapacity}
+                    setCurrentCount={_setNewCurrentCount}
+                    onUpdateSession={_changeSessionInfoAsync}
+                    onLeaveLocation={_onLeaveLocation}
+                    onDismiss={() => { _hideShowUpdateSessionModalVisible() }} />
             </View>
 
-            <ShareSessionModal
-                visible={showShareModalVisible}
-                loading={loading}
-                capacity={capacity}
-                qrCode={qrCode}
-                shortSessionCode={shortSessionCode}
-                onCopyToClipboardClick={_copyToClipboard}
-                onDismiss={_hideShowShareModalVisible} />
-
-            <EditSessionModal
-                visible={showUpdateSessionModalVisible}
-                loading={loading}
-                sessionId={sessionId}
-                capacity={newCapacity}
-                sessionName={newSessionName}
-                currentCount={newCurrentCount}
-                setName={_setNewSessionName}
-                setCapacity={_setNewCapacity}
-                setCurrentCount={_setNewCurrentCount}
-                onUpdateSession={_changeSessionInfoAsync}
-                onLeaveLocation={_onLeaveLocation}
-                onDismiss={() => { _hideShowUpdateSessionModalVisible() }} />
+            <View style={[styles.box, styles.footer, { alignItems: "center" }]}>
+                <PrimaryAdBanner/>
+            </View>
 
         </View>
     );
@@ -243,6 +249,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    body: {
+        flex: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    box: {
+        flex: 1
+    },
     iconContainer: {
         display: 'flex',
         flexDirection: 'row',
@@ -252,6 +266,12 @@ const styles = StyleSheet.create({
     progressText: {
         fontSize: 40,
         fontWeight: 'bold'
+    },
+    footer: {
+        flex: 1,
+        marginTop: "auto",
+        marginBottom: 30,
+        justifyContent: "flex-end"
     }
 });
 

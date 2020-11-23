@@ -4,6 +4,7 @@ import NoSessionCard from './NoSessionCard';
 import ShareSessionModal from './ShareSessionModal';
 import PrimaryButton from './PrimaryButton';
 import EditSessionModal from './EditSessionModal';
+import PrimaryAdBanner from './PrimaryAdBanner';
 
 export {
     TabBarIcon,
@@ -11,5 +12,6 @@ export {
     NoSessionCard,
     ShareSessionModal,
     PrimaryButton,
-    EditSessionModal
+    EditSessionModal,
+    PrimaryAdBanner
 }

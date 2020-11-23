@@ -2,7 +2,7 @@
   "expo": {
     "name": "Mercury",
     "slug": "Mercury",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "mercury",
@@ -21,10 +21,23 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.joshuakaluba.mercury",
+      "config": {
+        "googleMobileAdsAppId": "secret" 
+      },
       "infoPlist": {
         "NSCameraUsageDescription": "The app needs permission to your camera in order to take pictures to scan the QR code to join a location",
         "NSPhotoLibraryUsageDescription": "The app needs permission to your camera roll in order to add photos of QR codes to join a location"
       }
+    },
+    "android": {
+      "package": "com.joshuakaluba.mercury",
+      "permissions": [
+        "VIBRATE"
+      ],
+      "config": {
+        "googleMobileAdsAppId": "secret"
+      },
+      "versionCode": 3
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
