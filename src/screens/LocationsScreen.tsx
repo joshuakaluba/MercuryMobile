@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { StyleSheet, RefreshControl, View as NativeView, AsyncStorage } from 'react-native';
 import { Icon as ReactNativeElementsIcon } from 'react-native-elements';
-import { ListItem, Left, Right, Icon } from 'native-base';
 import { Container } from 'native-base';
 import { Colors } from '../constants';
-import { NoSessionCard } from '../components';
-import { ScrollView, Text } from '../components/Themed';
+import { LocationList, NoSessionCard } from '../components';
+import { ScrollView } from '../components/Themed';
 import { SessionsService } from '../services/SessionsService';
 import { Session } from '../models';
 import useColorScheme from '../hooks/useColorScheme';
@@ -96,18 +95,15 @@ const LocationsScreen = ({ route, navigation }) => {
                     />
                 }>
                 {
-                    hasSessions && sessions.map((session: Session, i) => (
-                        <ListItem key={i} onPress={() => { _onItemPress(session) }} >
-                            <Left>
-                                <Text>{session.name}</Text>
-                            </Left>
-                            <Right>
-                                <Icon name={'arrow-forward'} />
-                            </Right>
-                        </ListItem>
-                    ))
+                    !hasSessions &&
+                    <NoSessionCard onAddJoinClick={_onAddJoinClick} />
                 }
-                {!hasSessions && <NoSessionCard onAddJoinClick={_onAddJoinClick} />}
+                {
+                    !!hasSessions &&
+                    <LocationList
+                        onPress={_onItemPress.bind(this)}
+                        sessions={sessions} />
+                }
             </ScrollView>
 
         </Container>
