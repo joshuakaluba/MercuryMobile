@@ -5,6 +5,7 @@ import ShareSessionModal from './ShareSessionModal';
 import PrimaryButton from './PrimaryButton';
 import EditSessionModal from './EditSessionModal';
 import PrimaryAdBanner from './PrimaryAdBanner';
+import LocationList from './LocationList';
 
 export {
     TabBarIcon,
@@ -13,5 +14,6 @@ export {
     ShareSessionModal,
     PrimaryButton,
     EditSessionModal,
-    PrimaryAdBanner
+    PrimaryAdBanner,
+    LocationList
 }
