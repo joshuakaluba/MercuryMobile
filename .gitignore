@@ -111,3 +111,4 @@ dist
 .tern-port
 
 environment.ts
+secrets/config.json
