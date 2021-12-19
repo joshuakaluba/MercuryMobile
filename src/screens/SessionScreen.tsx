@@ -7,7 +7,7 @@ import { SessionsService } from '../services';
 import { Session, SessionOperation } from '../models';
 import { SessionOperationEnum } from '../enums';
 import { View, Text } from '../components/Themed';
-import { ShareSessionModal, EditSessionModal, PrimaryAdBanner } from '../components';
+import { ShareSessionModal, EditSessionModal, PrimaryAdBanner, HeaderMenuEllipsis } from '../components';
 import { Colors, Config } from '../constants';
 import useColorScheme from '../hooks/useColorScheme';
 
@@ -56,22 +56,11 @@ const SessionScreen = ({ route, navigation }) => {
         navigation.setOptions({
             headerRight: () => (
                 <NativeView style={{ display: 'flex', flexDirection: 'row', marginRight: 5 }}>
-                    <Icon
-                        onPress={() => {
-                            setShowShareModalVisible(true);
-                        }}
-                        name='share'
-                        size={26}
-                        type='feather'
-                        color={Colors[colorScheme].tabHeaderIconColor} />
-
-                    <Icon
-                        onPress={_showEditSessionModal}
-                        name='edit'
-                        style={{ marginLeft: 15, marginRight: 10 }}
-                        size={26}
-                        type='feather'
-                        color={Colors[colorScheme].tabHeaderIconColor} />
+                    <HeaderMenuEllipsis
+                        onEdit={()=>{_showEditSessionModal()}}
+                        onShare={()=>{ setShowShareModalVisible(true);}} 
+                        />
+                    
                 </NativeView>
             ),
         });
@@ -106,6 +95,16 @@ const SessionScreen = ({ route, navigation }) => {
         try {
             _hideShowUpdateSessionModalVisible();
 
+            await sessionService.leaveSession(sessionId);
+            navigation.goBack();
+        } catch (error) {
+            Lib.showError(error);
+        }
+    }    
+    
+    const onLeaveLocation = async (sessionId: string) => {
+        try {
+            alert(sessionId)
             await sessionService.leaveSession(sessionId);
             navigation.goBack();
         } catch (error) {

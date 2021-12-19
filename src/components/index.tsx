@@ -6,6 +6,7 @@ import PrimaryButton from './PrimaryButton';
 import EditSessionModal from './EditSessionModal';
 import PrimaryAdBanner from './PrimaryAdBanner';
 import LocationList from './LocationList';
+import HeaderMenuEllipsis from './HeaderMenuEllipsis';
 
 export {
     TabBarIcon,
@@ -15,5 +16,6 @@ export {
     PrimaryButton,
     EditSessionModal,
     PrimaryAdBanner,
-    LocationList
+    LocationList,
+    HeaderMenuEllipsis
 }

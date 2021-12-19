@@ -1,10 +1,9 @@
 import React from "react";
-import { View, Text, StyleSheet, Share } from "react-native";
+import { Text, StyleSheet, Share } from "react-native";
+import { Dialog, Portal } from "react-native-paper";
 import SvgQRCode from 'react-native-qrcode-svg';
-import { Modal } from 'react-native-paper';
-import { Colors } from '../constants';
-import { Icon } from 'react-native-elements';
 import { Lib } from "../utilities";
+import PrimaryButton from './PrimaryButton';
 
 const ShareSessionModal = (props: any) => {
 
@@ -16,7 +15,7 @@ const ShareSessionModal = (props: any) => {
             });
 
             if (result.action === Share.sharedAction) {
-               _onShareEnd();
+                _onShareEnd();
             } else if (result.action === Share.dismissedAction) {
                 // dismissed
             }
@@ -31,47 +30,49 @@ const ShareSessionModal = (props: any) => {
         const title = 'Shared successfully';
         const message = 'The join code has been shared successfully';
 
-        Lib.showSuccessMessageToast(title,message);
+        Lib.showSuccessMessageToast(title, message);
     }
 
     return (
-        <Modal onDismiss={props.onDismiss} visible={props.visible}>
-            <View style={styles.modal}>
+        <Portal>
+            <Dialog
+                visible={props.visible}
+                style={styles.dialogBody}
+                onDismiss={props.onDismiss}>
 
-                <Text style={styles.modalHeading}>
-                    Scan the following QR Code to share this session.
-                </Text>
+                <Dialog.Content style={{ alignItems: 'center', justifyContent: 'center', }}>
 
-                <SvgQRCode value={props.qrCode} size={130} />
+                    <Text style={styles.modalHeading}>
+                        Scan the following QR Code to share this session.
+                    </Text>
 
-                <Text style={styles.modalHeading}>
-                    or enter the following code:
-                </Text>
+                    <SvgQRCode value={props.qrCode} size={130} />
 
-                <Text style={styles.sessionCode}>
-                    {props.shortSessionCode.toUpperCase()}
-                </Text>
+                    <Text style={styles.modalHeading}>
+                        or enter the following code:
+                    </Text>
 
-                <View style={styles.iconContainer}>
-                    <Icon
-                        reverse
-                        onPress={props.onCopyToClipboardClick}
-                        name='copy'
-                        size={26}
-                        type='feather'
-                        color={Colors.constants.darkGrey} />
+                    <Text style={styles.shoppingListCode} selectable={true}>
+                        {props.shortSessionCode.toUpperCase()}
+                    </Text>
 
-                    <Icon
-                        reverse
-                        onPress={_onShare}
-                        name='share'
-                        size={26}
-                        type='feather'
-                        color={Colors.constants.blue} />
-                </View>
+                </Dialog.Content>
+                <Dialog.Actions style={styles.dialogActions}>
+                    <PrimaryButton
+                        title={`Share`}
+                        alternativeColors
+                        icon={'share'}
+                        onPress={_onShare} />
 
-            </View>
-        </Modal>
+                </Dialog.Actions>
+                <Dialog.Actions style={styles.dialogActions}>
+                    <PrimaryButton
+                        title={`Copy to clipboard`}
+                        icon={`copy`}
+                        onPress={props.onCopyToClipboardClick} />
+                </Dialog.Actions>
+            </Dialog>
+        </Portal>
     );
 }
 
@@ -96,22 +97,18 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
         paddingRight: 20
     },
-    sessionCode: {
+    shoppingListCode: {
         fontWeight: 'bold',
         fontSize: 30,
         textAlign: 'center',
     },
-    copyToClipboardButton: {
-        marginTop: 5,
-        marginBottom: 15,
-        alignContent: 'center',
-        alignItems: 'center',
-        justifyContent: 'center'
+    dialogBody: {
+        paddingBottom: 10,
+        backgroundColor: 'white'
     },
-    iconContainer: {
-        display: 'flex',
-        flexDirection: 'row',
-        marginTop: 15,
-        marginBottom: 15
+    dialogActions: {
+        justifyContent: "center",
+        alignItems: "center"
     }
 });
+

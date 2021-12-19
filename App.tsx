@@ -16,6 +16,7 @@ import Navigation from './src/navigation';
 
 // something up the dependency tree
 LogBox.ignoreLogs(['expo-constants']);
+LogBox.ignoreLogs(['Clipboard has been extracted', 'AsyncStorage has been extracted']);
 
 const App = () => {
     const isLoadingComplete = useCachedResources();
